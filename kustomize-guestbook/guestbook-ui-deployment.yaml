@@ -14,7 +14,7 @@ spec:
         app: guestbook-ui
     spec:
       containers:
-      - image: aborilov/ks-guestbook-demo:0.1
+      - image: docker.io/aborilov/ks-guestbook-demo:0.1
         name: guestbook-ui
         ports:
         - containerPort: 80
