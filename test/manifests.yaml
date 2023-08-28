@@ -20,6 +20,9 @@ spec:
         image: nginx:1.19.0
         ports:
         - containerPort: 80
+        resources:
+          requests:
+            cpu: "100m"  # Requesting 0.1 CPU core
 ---
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
