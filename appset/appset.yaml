@@ -1,0 +1,136 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: argocd-loadtest
+  namespace: argocd
+spec:
+  generators:
+  - matrix:
+      generators:
+      - list:
+          elements:
+          - prefix: 1
+          - prefix: 2
+          - prefix: 3
+          - prefix: 4
+          - prefix: 5
+          - prefix: 6
+          - prefix: 7
+          - prefix: 8
+          - prefix: 9
+          - prefix: 10
+          - prefix: 11
+          - prefix: 12
+          - prefix: 13
+          - prefix: 14
+          - prefix: 15
+          - prefix: 16
+          - prefix: 17
+          - prefix: 18
+          - prefix: 19
+          - prefix: 20
+          - prefix: 21
+          - prefix: 22
+          - prefix: 23
+          - prefix: 24
+          - prefix: 25
+          - prefix: 26
+          - prefix: 27
+          - prefix: 28
+          - prefix: 29
+          - prefix: 30
+          - prefix: 31
+          - prefix: 32
+          - prefix: 33
+          - prefix: 34
+          - prefix: 35
+          - prefix: 36
+          - prefix: 37
+          - prefix: 38
+          - prefix: 39
+          - prefix: 40
+          - prefix: 41
+          - prefix: 42
+          - prefix: 43
+          - prefix: 44
+          - prefix: 45
+          - prefix: 46
+          - prefix: 47
+          - prefix: 48
+          - prefix: 49
+          - prefix: 50
+          - prefix: 51
+          - prefix: 52
+          - prefix: 53
+          - prefix: 54
+          - prefix: 55
+          - prefix: 56
+          - prefix: 57
+          - prefix: 58
+          - prefix: 59
+          - prefix: 60
+          - prefix: 61
+          - prefix: 62
+          - prefix: 63
+          - prefix: 64
+          - prefix: 65
+          - prefix: 66
+          - prefix: 67
+          - prefix: 68
+          - prefix: 69
+          - prefix: 70
+          - prefix: 71
+          - prefix: 72
+          - prefix: 73
+          - prefix: 74
+          - prefix: 75
+          - prefix: 76
+          - prefix: 77
+          - prefix: 78
+          - prefix: 79
+          - prefix: 80
+          - prefix: 81
+          - prefix: 82
+          - prefix: 83
+          - prefix: 84
+          - prefix: 85
+          - prefix: 86
+          - prefix: 87
+          - prefix: 88
+          - prefix: 89
+          - prefix: 90
+      - list:
+          elements:
+          - cluster: test
+  goTemplate: true
+  goTemplateOptions:
+  - missingkey=error
+  template:
+    metadata:
+      finalizers:
+      - resources-finalizer.argocd.argoproj.io
+      name: podinfo-{{.prefix}}-{{.cluster}}
+    spec:
+      destination:
+        name: '{{.cluster}}'
+        namespace: akuity-poc-deployments
+      project: default
+      source:
+        chart: podinfo
+        helm:
+          releaseName: podinfo-{{.prefix}}-{{.cluster}}
+          values: |
+            image:
+              tag: 6.7.0
+            resources:
+              limits:
+                cpu: "0.1"
+                memory: "32Mi"
+              requests:
+                cpu: "0.1"
+                memory: "32Mi"
+        repoURL: https://stefanprodan.github.io/podinfo
+        targetRevision: 6.7.0
+      syncPolicy:
+        automated:
+          prune: true
