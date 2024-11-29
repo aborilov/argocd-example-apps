@@ -14,7 +14,7 @@ spec:
           - prefix: 3
       - list:
           elements:
-          - cluster: in-cluster
+          - cluster: test
   goTemplate: true
   goTemplateOptions:
   - missingkey=error
