@@ -18,16 +18,16 @@ spec:
     metadata:
       finalizers:
       - resources-finalizer.argocd.argoproj.io
-      name: podinfo-{{.branch}}-{{.prefix}}-{{.cluster}}
+      name: podinfo-{{.branch}}-{{.prefix}}
     spec:
       destination:
-        name: '{{.cluster}}'
+        name: test
         namespace: akuity-poc-deployments
       project: default
       source:
         chart: podinfo
         helm:
-          releaseName: podinfo-{{.prefix}}-{{.cluster}}
+          releaseName: podinfo-{{.prefix}}
           values: |
             image:
               tag: 6.7.0
