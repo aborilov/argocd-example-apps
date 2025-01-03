@@ -18,7 +18,7 @@ spec:
     metadata:
       finalizers:
       - resources-finalizer.argocd.argoproj.io
-      name: podinfo-{{.branch}}
+      name: 'podinfo-{{.branch}}'
     spec:
       destination:
         name: test
@@ -27,7 +27,7 @@ spec:
       source:
         chart: podinfo
         helm:
-          releaseName: podinfo-{{.branch}}
+          releaseName: 'podinfo-{{.branch}}'
           values: |
             image:
               tag: 6.7.0
