@@ -1,0 +1,49 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: argocd-loadtest
+  namespace: argocd
+spec:
+  generators:
+  - matrix:
+      generators:
+      - list:
+          elements:
+          - prefix: 1
+          - prefix: 2
+          - prefix: 3
+      - list:
+          elements:
+          - cluster: test
+  goTemplate: true
+  goTemplateOptions:
+  - missingkey=error
+  template:
+    metadata:
+      finalizers:
+      - resources-finalizer.argocd.argoproj.io
+      name: podinfo-{{.prefix}}-{{.cluster}}
+    spec:
+      destination:
+        name: '{{.cluster}}'
+        namespace: akuity-poc-deployments
+      project: default
+      source:
+        chart: podinfo
+        helm:
+          releaseName: podinfo-{{.prefix}}-{{.cluster}}
+          values: |
+            image:
+              tag: 6.7.0
+            resources:
+              limits:
+                cpu: "0.2"
+                memory: "32Mi"
+              requests:
+                cpu: "0.1"
+                memory: "32Mi"
+        repoURL: https://stefanprodan.github.io/podinfo
+        targetRevision: 6.7.0
+      syncPolicy:
+        automated:
+          prune: true
