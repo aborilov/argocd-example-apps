@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: argocd-prgenerator
+  namespace: argocd
+spec:
+  generators:
+  - pullRequest:
+        github:
+          owner: aborilov
+          repo: argocd-example-apps
+          tokenRef:
+            secretName: application-set-secret
+            key: token
+          labels:
+          - preview
+  template:
+    metadata:
+      finalizers:
+      - resources-finalizer.argocd.argoproj.io
+      name: podinfo-{{.branch}}-{{.prefix}}-{{.cluster}}
+    spec:
+      destination:
+        name: '{{.cluster}}'
+        namespace: akuity-poc-deployments
+      project: default
+      source:
+        chart: podinfo
+        helm:
+          releaseName: podinfo-{{.prefix}}-{{.cluster}}
+          values: |
+            image:
+              tag: 6.7.0
+            resources:
+              limits:
+                cpu: "0.2"
+                memory: "32Mi"
+              requests:
+                cpu: "0.1"
+                memory: "32Mi"
+        repoURL: https://stefanprodan.github.io/podinfo
+        targetRevision: 6.7.0
+      syncPolicy:
+        automated:
+          prune: true
