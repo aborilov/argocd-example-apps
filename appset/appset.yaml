@@ -1,49 +1,27 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: argocd-loadtest
+  name: guestbook
   namespace: argocd
 spec:
   generators:
-  - matrix:
-      generators:
-      - list:
-          elements:
-          - prefix: 1
-          - prefix: 2
-          - prefix: 3
-      - list:
-          elements:
-          - cluster: test
-  goTemplate: true
-  goTemplateOptions:
-  - missingkey=error
+  - list:
+      elements:
+      - prefix: 1
+        cluster: test
+      - prefix: 2
+        cluster: test
+      - prefix: 3
+        cluster: test
   template:
     metadata:
-      finalizers:
-      - resources-finalizer.argocd.argoproj.io
-      name: podinfo-{{.prefix}}-{{.cluster}}
+      name: 'guestbook-{{prefix}}-app'
     spec:
-      destination:
-        name: '{{.cluster}}'
-        namespace: akuity-poc-deployments
-      project: default
+      project: "default"
       source:
-        chart: podinfo
-        helm:
-          releaseName: podinfo-{{.prefix}}-{{.cluster}}
-          values: |
-            image:
-              tag: 6.7.0
-            resources:
-              limits:
-                cpu: "0.2"
-                memory: "32Mi"
-              requests:
-                cpu: "0.1"
-                memory: "32Mi"
-        repoURL: https://stefanprodan.github.io/podinfo
-        targetRevision: 6.7.0
-      syncPolicy:
-        automated:
-          prune: true
+        repoURL: https://github.com/aborilov/argocd-example-apps/
+        targetRevision: test
+        path: guestbook
+      destination:
+        name: '{{cluster}}'
+        namespace: akuity-poc-deployments
