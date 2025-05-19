@@ -6,7 +6,7 @@ metadata:
 spec:
   filter:
     expressions:
-    - filter(appInfo.GetManagedResources(), .kind!="Service")
+    - len(appInfo.GetManagedResources()) > 0
   generators:
   - list:
       elements:
