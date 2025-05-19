@@ -15,7 +15,7 @@ spec:
       - prefix: "2"
         cluster: test
       - prefix: "3"
-        cluster: test
+        cluster: test1
   template:
     metadata:
       name: 'guestbook-{{prefix}}-app'
