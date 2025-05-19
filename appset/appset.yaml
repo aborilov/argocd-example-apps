@@ -4,6 +4,9 @@ metadata:
   name: guestbook
   namespace: argocd
 spec:
+  filter:
+    expressions:
+    - len(appInfo.GetManagedResources()) > 0
   generators:
   - list:
       elements:
