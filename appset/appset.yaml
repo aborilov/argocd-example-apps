@@ -7,11 +7,11 @@ spec:
   generators:
   - list:
       elements:
-      - prefix: 1
+      - prefix: "1"
         cluster: test
-      - prefix: 2
+      - prefix: "2"
         cluster: test
-      - prefix: 3
+      - prefix: "3"
         cluster: test
   template:
     metadata:
