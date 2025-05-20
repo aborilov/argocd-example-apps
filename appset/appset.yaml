@@ -5,6 +5,7 @@ metadata:
   namespace: argocd
 spec:
   filter:
+    skipOnFailure: true
     expressions:
     - len(appInfo.GetManagedResources()) > 0
   generators:
