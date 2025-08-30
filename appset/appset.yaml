@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: guestbook
+  namespace: argocd
+spec:
+  filter:
+    skipOnFailure: true
+    expressions:
+    - len(appInfo.GetManagedResources()) > 0
+  generators:
+  - list:
+      elements:
+      - prefix: "1"
+        cluster: test
+      - prefix: "2"
+        cluster: test
+      - prefix: "3"
+        cluster: test1
+  template:
+    metadata:
+      name: 'guestbook-{{prefix}}-app'
+    spec:
+      project: "default"
+      source:
+        repoURL: https://github.com/aborilov/argocd-example-apps/
+        targetRevision: test
+        path: guestbook
+      destination:
+        name: '{{cluster}}'
+        namespace: akuity-poc-deployments
