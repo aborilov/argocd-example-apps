@@ -1,0 +1,48 @@
+metadata:
+  name: guestbook-list-generator
+  namespace: argocd
+spec:
+  goTemplate: true
+  generators:
+    - list:
+        elements:
+          - name: test
+            namespace: test
+            server: http://cluster-test:8001/
+          - name: prod
+            namespace: prod
+            server: http://cluster-prod:8001/
+          - name: dev
+            namespace: dev
+            server: http://cluster-dev:8001/
+        template:
+          metadata: {}
+          spec:
+            destination: {}
+            project: ""
+  template:
+    metadata:
+      name: "{{.name}}-guestbook"
+      annotations:
+        kargo.akuity.io/authorized-stage: semver:first
+        notifications.argoproj.io/subscribe.on-deployed-git.github: ""
+    spec:
+      source:
+        repoURL: https://github.com/aborilov/argocd-example-apps.git
+        path: guestbook
+        targetRevision: test
+      destination:
+        server: "{{.server}}"
+        namespace: "{{.namespace}}"
+      project: guestbook
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+    applicationsSync: sync
+  goTemplateOptions:
+    - missingkey=error
