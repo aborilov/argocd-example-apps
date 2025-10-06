@@ -10,7 +10,7 @@ spec:
         elements:
           - name: test
             namespace: test
-            server: http://cluster-test:8001/
+            server: http://cluster-test:8001
         template:
           metadata: {}
           spec:
