@@ -11,12 +11,6 @@ spec:
           - name: test
             namespace: test
             server: http://cluster-test:8001/
-          - name: prod
-            namespace: prod
-            server: http://cluster-prod:8001/
-          - name: dev
-            namespace: dev
-            server: http://cluster-dev:8001/
         template:
           metadata: {}
           spec:
