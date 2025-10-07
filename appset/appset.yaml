@@ -13,8 +13,6 @@ spec:
       elements:
       - prefix: "1"
         cluster: test
-      - prefix: "3"
-        cluster: test1
   template:
     metadata:
       name: 'guestbook-{{prefix}}-app'
