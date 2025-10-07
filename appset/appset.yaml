@@ -25,5 +25,5 @@ spec:
         targetRevision: test
         path: guestbook
       destination:
+        name: '{{cluster}}'
         namespace: akuity-poc-deployments
-        server: 'http://cluster-{{cluster}}:8001'
