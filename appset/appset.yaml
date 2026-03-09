@@ -13,6 +13,16 @@ spec:
       elements:
       - prefix: "1"
         cluster: test
+      - prefix: "2"
+        cluster: test
+      - prefix: "3"
+        cluster: test
+      - prefix: "4"
+        cluster: test
+      - prefix: "5"
+        cluster: test
+      - prefix: "6"
+        cluster: test
   template:
     metadata:
       name: 'guestbook-{{prefix}}-app'
