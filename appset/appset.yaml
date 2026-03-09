@@ -27,7 +27,7 @@ spec:
     metadata:
       name: 'guestbook-{{prefix}}-app'
     spec:
-      project: "test"
+      project: "default"
       source:
         repoURL: https://github.com/aborilov/argocd-example-apps/
         targetRevision: test
