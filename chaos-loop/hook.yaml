@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: chaos-breaker
+  name: chaos-saboteur
   namespace: chaos-loop
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: chaos-breaker
+      app: chaos-saboteur
   template:
     metadata:
       labels:
-        app: chaos-breaker
+        app: chaos-saboteur
     spec:
       serviceAccountName: chaos-hook
       containers:
-        - name: breaker
+        - name: saboteur
           image: bitnami/kubectl:latest
           command:
             - /bin/sh
             - -c
             - |
               while true; do
-                kubectl delete configmap chaos-target -n chaos-loop --ignore-not-found
-                sleep 5
+                kubectl delete pods -n chaos-loop -l app=chaos-target --ignore-not-found
+                sleep 10
               done
